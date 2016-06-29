@@ -1,0 +1,17 @@
+{
+	"name": "tazzydemon/themes-pulseweb",
+	"description": "Silverstripe Themes folder for Pulse Website.",
+	"type": "silverstripe-theme",
+
+	"authors": [{
+		"name": "Julian Warren",
+		"email": "julian.warren@pulseenergy.co.nz"
+	}
+	],
+	"require": {
+		"silverstripe/framework": "~3.1"
+	},
+		"extra": {
+		"installer-name": "pulse"
+	}
+}

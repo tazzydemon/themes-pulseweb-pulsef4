@@ -1,0 +1,230 @@
+//
+// Panel Variables
+//
+$include-html-panel-classes: $include-html-classes !default;
+
+// We use these to control the background and border styles
+$formpagepanel-bg: #ffffff !default;
+$formpagepanel-border-style: solid !default;
+$formpagepanel-border-size: 0px !default;
+
+// We use this % to control how much we darken things on hover
+$formpagepanel-function-factor: 10% !default;
+$formpagepanel-border-color: darken($formpagepanel-bg, $formpagepanel-function-factor) !default;
+
+// We use these to set default inner padding and bottom margin
+$formpagepanel-margin-bottom: em-calc(0) !default;
+$formpagepanel-padding: em-calc(20) !default;
+
+// We use these to set default font colors
+$formpagepanel-font-color: #333 !default;
+$formpagepanel-font-color-alt: #fff !default;
+$formpagepanel-heading-color: #57a946 !default;
+$formpagepanel-heading-color-alt: #00A9E2 !default;
+$formpagepanel-header-adjust: false !default;
+
+//
+// Panel Mixins
+//
+
+// We use this mixin to create panels.
+@mixin formpagepanel($bg: $formpagepanel-bg, $padding: $formpagepanel-padding, $adjust: $formpagepanel-header-adjust) {
+
+  @if $bg {
+    $bg-lightness: lightness($bg);
+    border-style: $formpagepanel-border-style;
+    border-width: $formpagepanel-border-size;
+    border-color: darken($bg, $formpagepanel-function-factor);
+    margin-bottom: $formpagepanel-margin-bottom;
+    padding: $padding;
+    background: $bg;
+
+    // Respect the padding, fool.
+    & > :first-child { margin-top: 0; }
+    & > :last-child { margin-bottom: 0; }
+
+    // @if $adjust {
+    // We set the font color based on the darkness of the bg.
+    // @if $bg-lightness >= 50% and $bg == blue {
+    //        h4, h5, h6, p { color: $formpagepanel-font-color-alt; }
+    //        } @else if $bg-lightness >= 50%            {
+    //        h4, h5, h6, p { color: $formpagepanel-font-color; }
+    //        } @else {
+    h1, h2, h3, h4, h5, h6 { color: $formpagepanel-heading-color; }
+    p { color: $formpagepanel-font-color; }
+    // }
+    //@if $bg-lightness >= 50% and $bg == blue {
+    //        h1, h2, h3 { color: $formpagepanel-heading-color-alt; }
+    //        } @else if $bg-lightness >= 50%            {
+    //        h1, h2, h3 { color: $formpagepanel-heading-color; }
+    //        } @else {
+    //  h1, h2, h3 { color: $formpagepanel-heading-color-alt; }
+    //  }
+    // reset header line-heights for panels
+    h1, h2, h3, h4, h5, h6 {
+      line-height: 1.5;
+      margin-bottom: $formpagepanel-margin-bottom;
+      font-family: $header5-font-family;
+      font-weight: $header-font-weight-light;
+      &.subheader { line-height: 1.4; }
+      }
+    h1, h2, h3 {
+      font-family: $body-font-family;
+      line-height: 1;
+      margin: 0px;
+      }
+    h4 {
+      font-size: 1.0em;
+      line-height: 1.1;
+      }
+    //}
+    }
+  }
+
+// Only include these classes if the option exists
+@if $include-html-panel-classes != false {
+  /* Panels */
+
+  .formpagepanel { @include formpagepanel;
+
+    &.callout {
+      @include formpagepanel($primary-color);
+      @include inset-shadow($active: false);
+      }
+
+    &.radius {
+      @include formpagepanel($bg: false);
+      @include radius;
+      }
+    &.title {
+      margin-bottom: 0px;
+      background-color: $pulse-green;
+      border-bottom: 0px;
+      text-align: center;
+      }
+    & .formpagerow {
+      padding-top: 1.5em;
+      padding-bottom: 1.5em;
+      //border-bottom: 1px dotted #c0c0c0;
+      //hborder-bottom: 3px solid #f0f0f0;
+      &:hover {
+        background-color: lighten($pulse-green, 20%);
+        transition: all .25s ease-in-out;
+        -moz-transition: all .25s ease-in-out;
+        -webkit-transition: all .25s ease-in-out;
+        behavior: url(/themes/pulse/javascript/vendor/PIE.htc);
+        }
+      .table {
+        width: 100%;
+        //background-color:  $pulse-dark-grey;
+        /*+border-radius:5px;*/
+        //        -moz-border-radius: 5px;
+        //        -webkit-border-radius: 5px;
+        //        -khtml-border-radius: 5px;
+        //        border-radius: 5px;
+        //        -moz-box-shadow: 3px 3px 5px #bbbbbb;
+        //        -webkit-box-shadow: 3px 3px 5px #bbbbbb;
+        //        -o-box-shadow: 3px 3px 5px #bbbbbb;
+        //        box-shadow: 3px 3px 5px #bbbbbb;
+        //        behavior: url(/themes/pulse/javascript/vendor/PIE.htc);
+        //background-size:100% 100%;
+        //background-image: url('/themes/pulse/images/formpageRectangle.png');
+        }
+      .table-cell {
+        -moz-box-shadow: 3px 3px 5px #bbbbbb;
+        -webkit-box-shadow: 3px 3px 5px #bbbbbb;
+        -o-box-shadow: 3px 3px 5px #bbbbbb;
+        box-shadow: 3px 3px 5px #bbbbbb;
+        behavior: url(/themes/pulse/javascript/vendor/PIE.htc);
+        padding-left: 20px;
+        padding-right: 20px;
+        //width: 100%;
+        height: 70px;
+        behavior: url(/themes/pulse/javascript/vendor/PIE.htc);
+        p {
+          margin-bottom: 0px;
+          }
+        &.blue {
+          h1, h2, h3, h4, h5, h6 {
+            color: $formpagepanel-heading-color-alt;
+            }
+            }
+        &.form-left {
+          background-color: $pulse-green;
+          @include side-radius(left, 8px);
+          width:25%;
+          padding:0px;
+          }
+        &.form-right {
+          background-color: $pulse-dark-grey;
+          @include side-radius(right, 8px);
+          width:75%;
+          & H1,H2,H3,H4,H5, & .body-a2, & .body-a1{
+            color:white;
+            a{color: white;}
+            }
+          }
+        }
+      }
+
+    & .arrow-down {
+      position: absolute;
+      top: 0px;
+      right: 30px;
+      width: 0;
+      height: 0;
+      border-left: 1.0em solid transparent;
+      border-right: 1.0em solid transparent;
+      border-top: 1.5em solid $pulse-green;
+      }
+
+    }
+
+  @media only screen and (max-width: 767px) {
+    .formpagepanel {
+      .formpagerow {
+        .table-cell {
+          padding-left: 10px;
+          padding-right: 10px;
+          background-size: auto 100%;
+          background-repeat: no-repeat;
+          background-image: none;
+          width: 100%;
+          height: 110px;
+          border-left: 10px solid #57a946;
+
+          p {
+            margin-bottom: 0px;
+            }
+          &.blue {
+            h1, h2, h3, h4, h5, h6 {
+              color: $formpagepanel-heading-color-alt;
+              }
+            background-image: none;
+            }
+          &.form-left{
+            display:none;
+            }
+          &.form-right{
+            width:320px;
+            }
+
+          }
+
+        }
+      }
+    }
+  }
+
+//@media only screen and (min-width: $small-screen) and (max-width: 850px) {
+//  .formpagepanel {
+//    .formpagerow {
+//      .table-cell {
+//        padding-left: 160px;
+//        padding-right: 10px;
+//        }
+//      }
+//    }
+//  }
+
+

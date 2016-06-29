@@ -1,0 +1,124 @@
+//
+// Panel Variables
+//
+$include-html-panel-classes: $include-html-classes !default;
+
+// We use these to control the background and border styles
+$careerpanel-bg: darken(#fff, 5%) !default;
+$careerpanel-border-style: solid !default;
+$careerpanel-border-size: 0px !default;
+
+// We use this % to control how much we darken things on hover
+$careerpanel-function-factor: 10% !default;
+$careerpanel-border-color: darken($careerpanel-bg, $careerpanel-function-factor) !default;
+
+// We use these to set default inner padding and bottom margin
+$careerpanel-margin-bottom: em-calc(20) !default;
+$careerpanel-padding: em-calc(30) !default;
+
+// We use these to set default font colors
+$careerpanel-font-color: #333 !default;
+$careerpanel-font-color-alt: #fff !default;
+$careerpanel-heading-color: #fff !default;
+$careerpanel-heading-color-alt: #fff !default;
+$careerpanel-header-adjust: true !default;
+
+//
+// Panel Mixins
+//
+
+// We use this mixin to create panels.
+@mixin careerpanel($bg:$careerpanel-bg, $padding:$careerpanel-padding, $adjust:$careerpanel-header-adjust) {
+
+  @if $bg {
+    $bg-lightness: lightness($bg);
+
+    border-style: $careerpanel-border-style;
+    border-width: $careerpanel-border-size;
+    border-color: darken($bg, $careerpanel-function-factor);
+    margin-bottom: $careerpanel-margin-bottom;
+    padding: $padding;
+
+    background: $bg;
+
+    // Respect the padding, fool.
+    &>:first-child { margin-top: 0; }
+    &>:last-child { margin-bottom: 0; }
+
+    @if $adjust {
+      // We set the font color based on the darkness of the bg.
+      @if $bg-lightness >= 50% and $bg == blue { h3,h4,h5,h6,p { color: $careerpanel-font-color-alt; } }
+      @else if $bg-lightness >= 50%            { h3,h4,h5,h6,p { color: $careerpanel-font-color; } }
+      @else                                    { h3,h4,h5,h6,p { color: $careerpanel-font-color-alt; } }
+
+      @if $bg-lightness >= 50% and $bg == blue { h1,h2 { color: $careerpanel-heading-color-alt; } }
+      @else if $bg-lightness >= 50%            { h1,h2 { color: $careerpanel-heading-color; } }
+      @else                                    { h1,h2 { color: $careerpanel-heading-color-alt; } }
+
+      // reset header line-heights for panels
+      h1,h2,h3,h4,h5,h6 {
+        line-height: 1.5; margin-bottom: em-calc(20) / 2;
+ //       font-family: "bitterregular";
+        &.subheader { line-height: 1.4; }
+      }
+      h1,h2 {
+//        font-family: $body-font-family;
+        line-height: 1;
+        margin:0px;
+//        font-size:1.6em;
+      }
+    }
+  }
+}
+
+// Only include these classes if the option exists
+@if $include-html-panel-classes != false {
+
+  /* Panels */
+  .careerpanel { @include careerpanel;
+
+    &.callout {
+      @include careerpanel($primary-color);
+      @include inset-shadow($active:false);
+    }
+
+    &.radius {
+      @include careerpanel($bg:false);
+      @include radius;
+    }
+    &.title {
+      margin-bottom: 0px;
+      background-color:$pulse-green;
+      border-bottom: 0px;
+      padding-top:$careerpanel-padding/3;
+      padding-bottom:$careerpanel-padding/3;
+      position:relative;
+    }
+    & .hubrow{
+      padding-top: 0.5em;
+      padding-bottom: 0.5em;
+      border-bottom: 1px dotted grey;
+    }
+
+    //& .arrow-down{
+    //    position:absolute;
+    //    top:0px;
+    //    right:30px;
+    //    width: 0;
+    //    height: 0;
+    //    border-left: 1.2em solid transparent;
+    //    border-right: 1.2em solid transparent;
+    //    border-top: 2em solid $pulse-green;
+    //}
+
+  }
+  //.careerarrow
+  //{
+  //	background: url(../images/careerarrow.png) no-repeat;
+  //  background-position: 0 -1.4em;
+  //}
+  .careerquote P{
+    font-size:0.9em;
+    }
+
+}

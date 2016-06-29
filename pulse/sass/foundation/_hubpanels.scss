@@ -1,0 +1,122 @@
+//
+// Panel Variables
+//
+$include-html-panel-classes: $include-html-classes !default;
+
+// We use these to control the background and border styles
+$hubpanel-bg: darken(#fff, 5%) !default;
+$hubpanel-border-style: solid !default;
+$hubpanel-border-size: 0px !default;
+
+// We use this % to control how much we darken things on hover
+$hubpanel-function-factor: 10% !default;
+$hubpanel-border-color: darken($hubpanel-bg, $hubpanel-function-factor) !default;
+
+// We use these to set default inner padding and bottom margin
+$hubpanel-margin-bottom: em-calc(20) !default;
+$hubpanel-padding: em-calc(20) !default;
+
+// We use these to set default font colors
+$hubpanel-font-color: #333 !default;
+$hubpanel-font-color-alt: #fff !default;
+$hubpanel-heading-color: #fff !default;
+$hubpanel-heading-color-alt: #fff !default;
+$hubpanel-header-adjust: true !default;
+
+//
+// Panel Mixins
+//
+
+// We use this mixin to create panels.
+@mixin hubpanel($bg:$hubpanel-bg, $padding:$hubpanel-padding, $adjust:$hubpanel-header-adjust) {
+
+  @if $bg {
+    $bg-lightness: lightness($bg);
+
+    border-style: $hubpanel-border-style;
+    border-width: $hubpanel-border-size;
+    border-color: darken($bg, $hubpanel-function-factor);
+    margin-bottom: $hubpanel-margin-bottom;
+    padding: $padding;
+
+    background: $bg;
+
+    // Respect the padding, fool.
+    &>:first-child { margin-top: 0; }
+    &>:last-child { margin-bottom: 0; }
+
+    @if $adjust {
+      // We set the font color based on the darkness of the bg.
+      @if $bg-lightness >= 50% and $bg == blue { h4,h5,h6,p { color: $hubpanel-font-color-alt; } }
+      @else if $bg-lightness >= 50%            { h4,h5,h6,p { color: $hubpanel-font-color; } }
+      @else                                    { h4,h5,h6,p { color: $hubpanel-font-color-alt; } }
+
+      @if $bg-lightness >= 50% and $bg == blue { h1,h2,h3 { color: $hubpanel-heading-color-alt; } }
+      @else if $bg-lightness >= 50%            { h1,h2,h3 { color: $hubpanel-heading-color; } }
+      @else                                    { h1,h2,h3 { color: $hubpanel-heading-color-alt; } }
+
+      // reset header line-heights for panels
+      h1,h2,h3,h4,h5,h6 {
+        line-height: 1.5; margin-bottom: em-calc(20) / 2;
+        font-family: $header5-font-family;
+        font-weight: $header-font-weight-light;
+        &.subheader { line-height: 1.4; }
+      }
+      h1,h2,h3{
+        font-family: $body-font-family;
+        line-height: 1;
+        margin:0px;
+      }
+    }
+  }
+}
+
+// Only include these classes if the option exists
+@if $include-html-panel-classes != false {
+
+  /* Panels */
+  .hubpanel { @include hubpanel;
+
+    &.callout {
+      @include hubpanel($primary-color);
+      @include inset-shadow($active:false);
+    }
+
+    &.radius {
+      @include hubpanel($bg:false);
+      @include radius;
+    }
+    &.title {
+      margin-bottom: 0px;
+      background-color:$pulse-green;
+      border-bottom: 0px;
+      text-align: center;
+    }
+    & .hubrow{
+      padding-top: 0.5em;
+      padding-bottom: 0.5em;
+      border-bottom: 1px dotted #c0c0c0;
+      //hborder-bottom: 3px solid #f0f0f0;
+      &:hover{
+        background-color: lighten($pulse-green, 20%);
+        transition: all .25s ease-in-out;
+        -moz-transition: all .25s ease-in-out;
+        -webkit-transition: all .25s ease-in-out;
+        behavior: url(/themes/pulse/javascript/vendor/PIE.htc);
+        }
+    }
+
+    & .arrow-down{
+        position:absolute;
+        top:0px;
+        right:30px;
+        width: 0;
+        height: 0;
+        border-left: 1.0em solid transparent;
+        border-right: 1.0em solid transparent;
+        border-top: 1.5em solid $pulse-green;
+    }
+
+  }
+
+}

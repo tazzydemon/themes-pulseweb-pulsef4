@@ -1,0 +1,123 @@
+//
+// Panel Variables
+//
+$include-html-panel-classes: $include-html-classes !default;
+
+// We use these to control the background and border styles
+$teampanel-bg: darken(#fff, 5%) !default;
+$teampanel-border-style: solid !default;
+$teampanel-border-size: 0px !default;
+
+// We use this % to control how much we darken things on hover
+$teampanel-function-factor: 10% !default;
+$teampanel-border-color: darken($teampanel-bg, $teampanel-function-factor) !default;
+
+// We use these to set default inner padding and bottom margin
+$teampanel-margin-bottom: em-calc(20) !default;
+$teampanel-padding: em-calc(30) !default;
+
+// We use these to set default font colors
+$teampanel-font-color: #333 !default;
+$teampanel-font-color-alt: #fff !default;
+$teampanel-heading-color: #fff !default;
+$teampanel-heading-color-alt: #fff !default;
+$teampanel-header-adjust: true !default;
+
+//
+// Panel Mixins
+//
+
+// We use this mixin to create panels.
+@mixin teampanel($bg:$teampanel-bg, $padding:$teampanel-padding, $adjust:$teampanel-header-adjust) {
+
+  @if $bg {
+    $bg-lightness: lightness($bg);
+
+    border-style: $teampanel-border-style;
+    border-width: $teampanel-border-size;
+    border-color: darken($bg, $teampanel-function-factor);
+    margin-bottom: $teampanel-margin-bottom;
+    padding: $padding;
+
+    background: $bg;
+
+    // Respect the padding, fool.
+    &>:first-child { margin-top: 0; }
+    &>:last-child { margin-bottom: 0; }
+
+    @if $adjust {
+      // We set the font color based on the darkness of the bg.
+      @if $bg-lightness >= 50% and $bg == blue { h3,h4,h5,h6,p { color: $teampanel-font-color-alt; } }
+      @else if $bg-lightness >= 50%            { h3,h4,h5,h6,p { color: $teampanel-font-color; } }
+      @else                                    { h3,h4,h5,h6,p { color: $teampanel-font-color-alt; } }
+
+      @if $bg-lightness >= 50% and $bg == blue { h1,h2 { color: $teampanel-heading-color-alt; } }
+      @else if $bg-lightness >= 50%            { h1,h2 { color: $teampanel-heading-color; } }
+      @else                                    { h1,h2 { color: $teampanel-heading-color-alt; } }
+
+      // reset header line-heights for panels
+      h1,h2,h3,h4,h5,h6 {
+        line-height: 1.5; margin-bottom: em-calc(20) / 2;
+ //       font-family: "bitterregular";
+        &.subheader { line-height: 1.4; }
+      }
+      h1,h2 {
+//        font-family: $body-font-family;
+        line-height: 1;
+        margin:0px;
+//        font-size:1.6em;
+      }
+    }
+  }
+}
+
+// Only include these classes if the option exists
+@if $include-html-panel-classes != false {
+
+  /* Panels */
+  .teampanel { @include teampanel;
+
+    &.callout {
+      @include careerpanel($primary-color);
+      @include inset-shadow($active:false);
+    }
+
+    &.radius {
+      @include careerpanel($bg:false);
+      @include radius;
+    }
+    &.title {
+      margin-bottom: 0px;
+      background-color:$pulse-green;
+      border-bottom: 0px;
+      padding-top:$teampanel-padding/3;
+      padding-bottom:$teampanel-padding/3;
+    }
+    & .hubrow{
+      padding-top: 0.5em;
+      padding-bottom: 0.5em;
+      border-bottom: 1px dotted grey;
+    }
+
+    & .arrow-down{
+        position:absolute;
+        top:0px;
+        right:30px;
+        width: 0;
+        height: 0;
+        border-left: 1.0em solid transparent;
+        border-right: 1.0em solid transparent;
+        border-top: 1.5em solid $pulse-green;
+    }
+
+  }
+  .careerarrow
+  {
+  	background: url(../images/careerarrow.png) no-repeat;
+    background-position: 0 -1.4em;
+  }
+  .careerquote P{
+    font-size:0.9em;
+    }
+
+}
